@@ -1,0 +1,14 @@
+function spheredData=DataSphering(HIM)
+[line1,line2,line3,line4] = size(HIM);
+S = reshape(HIM,[line1,line2,line3,line4]);      
+Sbar = reshape(S,[line1,line2,line3,line4]);
+Sbar = ToVector(Sbar);
+X = Sbar;
+mu = mean(X); 
+X = bsxfun(@minus, X, mu);
+A = X'*X;
+[V,D,~] = svd(A);
+whMat = sqrt(size(X,2)-1)* V*sqrtm(inv(D + eye(size(D))*0.01))*V';
+Xwh = X*whMat;  
+S = Xwh;
+spheredData = reshape(S,[line1,line2,line3,line4]); 
